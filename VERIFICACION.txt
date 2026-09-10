@@ -1,0 +1,15 @@
+Verificacion realizada el 2026-09-09.
+Cinco grupos de pruebas sinteticas: PASS.
+- Segmentacion actual: 3 bloques de 60 s, 36 ventanas totales.
+- Protocolos fijo, cierre por marca y relativo al evento; inconsistencias y restos.
+- wPLI de 12 epocas de 5 s: coincide con pares explicitos de MNE-Connectivity.
+- Espectro, wSMI, PE, LZC y TE: coincide con original en ventanas identicas (1e-12).
+- NPZ sin pickle, Excel con identificadores, contribuciones, guardado atomico.
+Integracion con FIF sintetico: PASS.
+- Las seis features producen columnas en la tabla y detalle exportado.
+- La segunda corrida reutiliza limpieza; se bloqueo ICA.fit para verificarlo.
+Sintaxis Python 3.10: PASS (analisis AST; ejecucion real de pruebas en Python 3.12).
+Original subido: copia identica byte por byte.
+SHA256 original: 59fe8d967e9b5b65e2841a38331cca979cdc40894ef834ae16a12771df27cb2c
+Pendiente: prueba con BDF/FIF reales y el entorno Windows de Pedro.
+Estas pruebas no sustituyen validacion fisiologica ni un estudio de fiabilidad.

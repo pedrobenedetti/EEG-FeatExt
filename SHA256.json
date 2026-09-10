@@ -1,0 +1,16 @@
+{
+  "config_protocolo.py": "4642ac2f5d7bfb4ef7f2f83c494e791d1cca47971e98e6f78c693369b9cc71e1",
+  "salidas.py": "b4916e508bb1be1f3c37baf28054e37c532aa5271ad5af1e3f50ccf9dec34d3c",
+  "README.md": "de8b9f6f9500d5be409774a72889b279c711d53159cf289b51e37f3c9d2b70f4",
+  ".gitignore": "49eb8c1130e17f17d1d0881bc67ed5fbf9ec3390029fa625a556cc5638b60f5d",
+  "verificar_pipeline.py": "0014c9e9d0d8b4d10f9b7ad771a8027577a92ef454c75c2e14558b1b30a296bf",
+  "config_regiones.py": "a77c05aa36b05928d7736a01013c77da721fc9498d228befb6acfbd56ab107a8",
+  "LEEME.md": "20bd8efdd23751bfb9705d192deab64d95e0fea24247c712c96968a390bd7cec",
+  "segmentacion.py": "4be5a672bf9daaf80d2afe9426b646dac64ae16572ed90a5ed54d7fb053efa6d",
+  "config_sujetos.py": "cbf4ae98577e74c3b372eb85e9968a30c96211956e9fabbf72d996e2b500eff3",
+  "verificar_integracion.py": "28b19b4718f8f96ad7e3ff2aecc41461af7bd46210ada3692df4b4d3f05cf9b9",
+  "ejecutar_pipeline.py": "44a379cad663720b84c57a7803fe5b43fa4d1535ed8a18ac4e706396027eab1f",
+  "VERIFICACION.txt": "c20636b7b8b656ee805d6650095dde2f5e4cbe72a04b20e70b793b55a00cab73",
+  "features.py": "cfce4895454ff0378b5f3b736f9a670e4e9d4cd716e43c4ac4e08680727b3755",
+  "referencia/featureExtraction_original.py": "59fe8d967e9b5b65e2841a38331cca979cdc40894ef834ae16a12771df27cb2c"
+}
