@@ -18,9 +18,11 @@ numerical agreement is not assumed when estimators or analysis intervals differ.
   transfer entropy features.
 - Subject-level tables, detailed arrays, interval records and quality information.
 - Synthetic regression tests and an end-to-end integration test.
+- Validated long-to-wide transformation of the aggregate feature table, with
+  duplicate detection, missing-band reporting and preservation of audit sheets.
 
-Reshaping, normalization, PCA and statistical modelling are outside this package.
-The existing downstream scripts still need a separate compatibility review.
+Normalization, PCA and statistical modelling remain outside the current validated
+scope. Their existing downstream scripts require a separate compatibility review.
 
 ## Project structure
 
@@ -36,12 +38,16 @@ The existing downstream scripts still need a separate compatibility review.
 | `verificar_pipeline.py` | Synthetic segmentation, numerical and export tests |
 | `verificar_integracion.py` | Full synthetic FIF workflow and ICA-cache test |
 | `referencia/featureExtraction_original.py` | Unmodified source used for regression comparisons |
+| `featureExtraction_Reshape_2.py` | Validated long-to-wide transformation of the aggregate feature table |
 
 Configuration remains explicit and editable. `DATA_DIR`, `OUTPUT_DIR` and
 `CACHE_DIR` are absolute paths; recording names are selected through
 `SUBJECTS_TO_RUN` and configured in `config_sujetos.py`. These paths must match
 the local computer. The entry point is `ejecutar_pipeline.py`, using the selected
 Python interpreter in VS Code. No command-line arguments are required.
+The reshape stage also uses explicit `INPUT_FILE` and `OUTPUT_FILE` paths defined
+at the beginning of `featureExtraction_Reshape_2.py`. These paths must identify
+the extraction run that will be transformed.
 
 The initial selection is the first recording and `FEATURES_TO_RUN = ["wpli"]`.
 The complete feature list is preserved in a commented configuration line.
@@ -180,6 +186,39 @@ Each execution creates a separate directory containing:
 - Optional CSV export from the same aggregate table, with comma delimiters,
   decimal points and explicit floating-point formatting.
 
+### Long-to-wide feature reshaping
+
+`featureExtraction_Reshape_2.py` reads the `subject_level` sheet from
+`EEG_features_subject_level.xlsx`. The input contains one row per subject,
+condition and frequency band. The script generates `EEG_features_wide.xlsx`,
+with one row per subject and condition.
+
+Band-dependent features receive an explicit band suffix, such as
+`wpli_frontal_central__theta` or `spec_period_frontal__alpha`. The output uses
+the fixed band order delta, theta, alpha and beta.
+
+Aperiodic exponent and offset (`spec_exp_*` and `spec_off_*`), transfer entropy
+(`te_*`) and Lempel–Ziv complexity (`lzc_*`) are treated as shared variables.
+They appear once per subject and condition because they are either estimated
+from the same broadband calculation or repeated across band-labelled rows for
+table compatibility. Before collapsing these values, the script verifies that
+they are equal across bands within a configurable numerical tolerance. Mixed
+finite and missing values are considered an error.
+
+The reshape stage also:
+
+- rejects duplicate subject-condition-band keys;
+- rejects unexpected band labels and non-numeric feature values;
+- preserves completely missing feature columns;
+- creates explicit `NaN` entries for missing bands;
+- writes a mapping between input and output column names;
+- records reshape validation and shared-variable checks;
+- copies the extraction traceability, interval, issue, quality and region sheets.
+
+The first worksheet remains named `subject_level` for compatibility with the
+next processing stages. Additional worksheets are named `mapeo_columnas`,
+`validacion_reshape`, `bandas_faltantes` and `controles_compartidas`.
+
 Quality tables report finite, NaN and infinite values, plus the number of valid
 window/block contributions to each regional aggregate. Missing values are not
 replaced by zero. Failed calculations and partial results are recorded.
@@ -208,11 +247,28 @@ The synthetic regression uses two windows, with TE lags up to 10 ms to keep the
 test small. The separate wPLI check uses twelve 5 s epochs. These tests do not
 establish physiological validity or statistical reliability.
 
-A first real-data run on the user's Windows/Python 3.10 system completed all
-three conditions and four wPLI bands. The submitted workbook recorded complete
-60 s blocks, twelve epochs per estimate, no missing regional channels and no
-non-finite connectivity values. This is an initial execution check, not a full
-validation across subjects or a verification of the other features on that system.
+A full real-data execution on the user's Windows/Python 3.10 system completed
+all six selected feature families for three conditions and four frequency bands,
+producing 72 calculation records. The extraction output contained complete 60 s
+blocks, twelve 5 s windows per condition, no missing regional channels and no
+non-finite values in the aggregate feature table.
+
+The reshape validation transformed 12 subject-condition-band rows into three
+subject-condition rows. The resulting table contained 155 numeric features:
+35 shared variables and 30 band-dependent variables across four bands. There
+were no duplicate keys, missing bands, empty feature columns or non-finite cells
+in the reshaped main table.
+
+The detailed quality records contained missing values only on transfer-entropy
+self-connections, whose diagonal is undefined by design. The run also recorded
+12 informational MNE warnings about absent `EpochsArray` annotations and 20
+specparam warnings indicating that parameter covariance could not be estimated
+for some spectral fits. These warnings did not produce missing aggregate values,
+but they remain recorded for fit-quality review.
+
+This single-recording execution verifies pipeline integration and output
+structure. It does not establish physiological validity, estimator reliability
+or generalization across subjects.
 
 The synthetic test environment used Python 3.12.14, MNE 1.6.1, MNE-Connectivity
 0.6.0, NumPy 1.26.4, SciPy 1.13.1, specparam 2.0.0rc3, pandas 2.2.3 and openpyxl
