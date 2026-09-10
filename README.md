@@ -227,7 +227,7 @@ values merely falling inside the valid numerical range.
 
 ## Attribution
 
-Original processing implementation: Pedro Benedetti. The reference file is kept
+Original processing implementation: Pedro Benedetti (pbenedetti@itba.edu.ar). The reference file is kept
 for traceability. Cite the methods and libraries actually used in an analysis;
 this refactoring is not a new connectivity or spectral estimator. No new software
 license is assigned by this documentation update.
