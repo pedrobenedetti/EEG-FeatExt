@@ -1,7 +1,6 @@
 # Flexible EEG Feature Extraction Pipeline
 
-A configurable Python pipeline for EEG feature extraction, developed from Pedro
-Benedetti's processing script. The project separates acquisition-specific
+A configurable Python pipeline for EEG feature extraction. The project separates acquisition-specific
 preprocessing, experimental event definitions, feature estimators and exports.
 It is designed for an editable Python configuration and a regular VS Code workflow.
 
