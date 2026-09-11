@@ -4,10 +4,6 @@ A configurable Python pipeline for EEG feature extraction. The project separates
 preprocessing, experimental event definitions, feature estimators and exports.
 It is designed for an editable Python configuration and a regular VS Code workflow.
 
-This implementation grew out of a comparison with a MATLAB methodology adapted
-from another experimental protocol. MATLAB is a methodological reference; exact
-numerical agreement is not assumed when estimators or analysis intervals differ.
-
 ## Current scope
 
 - One shared preprocessing and ICA solution per recording.
